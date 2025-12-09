@@ -2,6 +2,8 @@ from utils.helpers import *
 from utils import db_manager
 import sys
 
+# Muestra uno o varios productos en formato detallado
+# Recibe una lista de productos
 def mostrar_productos(productos):
     if not productos:
         print("No se encontraron productos.")
@@ -15,7 +17,9 @@ def mostrar_productos(productos):
         print(f"Precio: ${producto[4]:.2f}")
         print(f"Categoria: {producto[5]}")
         print("-" * 30)
-        
+ 
+# Menú: Registro de un nuevo producto
+# Cada campo se valida antes de enviarse a la BD     
 def menu_registrar_producto():
     imprimir_titulo("Registrar producto")
     nombre = validar_string("Ingrese nombre del producto")
@@ -26,11 +30,14 @@ def menu_registrar_producto():
 
     if db_manager.registrar_producto(nombre, descripcion, cantidad, precio, categoria):
         imprimir_exito("Producto registrado exitosamente!")
-        
+
+# Menú: Consulta general de productos       
 def menu_consultar_productos():
     imprimir_titulo("Consultar productos")
     productos = db_manager.consultar_productos()
-    
+
+# Menú: Actualización de un producto por ID
+# Usa pedir_actualizacion() para evitar repetir lógica
 def menu_actualizar_producto():
     imprimir_titulo("Actualizar producto")
     id_producto = validar_int("Ingrese el ID del producto que quiera modificar")
@@ -54,6 +61,8 @@ def menu_actualizar_producto():
     else:
         imprimir_error("No se puedo actualizar.")
 
+# Menú: Eliminación de un producto
+# Incluye confirmación antes de eliminar
 def menu_eliminar_producto():
     imprimir_titulo("Eliminar producto")
     menu_consultar_productos()
@@ -67,6 +76,7 @@ def menu_eliminar_producto():
         else:
             imprimir_error(f"No se encontró producto con ID {id_producto}.")
 
+# Menú: Búsqueda de un producto por ID
 def menu_buscar_producto():
     imprimir_titulo("Búsqueda de producto")
     
@@ -76,7 +86,9 @@ def menu_buscar_producto():
         mostrar_productos([producto])
     else:
         imprimir_error("Opción inválida.")
-        
+ 
+# Menú: Reporte de productos con stock bajo
+# len(productos) permite informar cuántos cumplen el criterio       
 def menu_reporte():
     imprimir_titulo("Reporte de bajo stock")
     
@@ -87,7 +99,9 @@ def menu_reporte():
         mostrar_productos(productos)
     else:
         imprimir_exito("Todos los productos superan ese límite de stock.")
-        
+
+# Punto de entrada principal del programa
+# Muestra el menú y controla el flujo del sistema        
 def main():
     db_manager.inicializar_db()
     
@@ -125,4 +139,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

@@ -2,9 +2,11 @@ import sqlite3
 from utils.helpers import imprimir_error
 from config import DB_NAME, TABLE_NAME
 
+# Abre una conexión a la base de datos definida en DB_NAME
 def conectar_db():
     return sqlite3.connect(DB_NAME)
 
+# Crea la tabla si no existe. Se asegura que siempre se tenga una estructura mínima
 def inicializar_db():
     try:
         conexion = conectar_db()
@@ -26,7 +28,8 @@ def inicializar_db():
         
     finally:
         conexion.close()
-        
+
+# Inserta un nuevo producto en la tabla        
 def registrar_producto(nombre, descripcion, cantidad, precio, categoria):
     try:
         conexion = conectar_db()
@@ -44,6 +47,7 @@ def registrar_producto(nombre, descripcion, cantidad, precio, categoria):
     finally:
         conexion.close()
 
+# Devuelve todos los productos almacenados
 def consultar_productos():
     try:
         conexion = conectar_db()
@@ -59,6 +63,7 @@ def consultar_productos():
     finally:
         conexion.close()
 
+# Actualiza un producto por su ID y devuelve True si se modificó alguna fila
 def actualizar_producto_id(id_producto, nombre, descripcion, cantidad, precio, categoria):
     try:
         conexion = conectar_db()
@@ -76,7 +81,8 @@ def actualizar_producto_id(id_producto, nombre, descripcion, cantidad, precio, c
     
     finally:
         conexion.close()
-    
+
+# Elimina un producto por ID y devuelve True si realmente se borró    
 def eliminar_producto_id(id_producto):
     try:
         conexion = conectar_db()
@@ -94,6 +100,7 @@ def eliminar_producto_id(id_producto):
     finally:
         conexion.close()
 
+# Busca y devuelve un solo producto. Retorna None si no existe
 def buscar_producto_id(id_producto):
     try:
         conexion = conectar_db()
@@ -109,6 +116,7 @@ def buscar_producto_id(id_producto):
     finally:
         conexion.close()
 
+# Devuelve los productos cuya cantidad es menor o igual al límite indicado
 def reporte_bajo_stock(limite):
     try:
         conexion = conectar_db()
