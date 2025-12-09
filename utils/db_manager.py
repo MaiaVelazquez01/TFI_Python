@@ -1,10 +1,10 @@
 import sqlite3
 from utils.helpers import imprimir_error
-from config import DB_NAME, TABLE_NAME
+from config import BD_NAME, TABLE_NAME
 
-# Abre una conexión a la base de datos definida en DB_NAME
+# Abre una conexión a la base de datos definida en BD_NAME
 def conectar_db():
-    return sqlite3.connect(DB_NAME)
+    return sqlite3.connect(BD_NAME)
 
 # Crea la tabla si no existe. Se asegura que siempre se tenga una estructura mínima
 def inicializar_db():
@@ -68,7 +68,7 @@ def actualizar_producto_id(id_producto, nombre, descripcion, cantidad, precio, c
     try:
         conexion = conectar_db()
         cursor = conexion.cursor()
-        cursor.execute(f"UPDATE {TABLE_NAME} SET nombre = ?, descripcion = ?, cantidad = ?, precio = ?, categoria = ? WHERE id = {id_producto}", 
+        cursor.execute(f"UPDATE {TABLE_NAME} SET nombre = ?, descripcion = ?, cantidad = ?, precio = ?, categoria = ? WHERE id = ?", 
                        (nombre, descripcion, cantidad, precio, categoria, id_producto))
         if cursor.rowcount > 0:
             conexion.commit()
@@ -87,7 +87,7 @@ def eliminar_producto_id(id_producto):
     try:
         conexion = conectar_db()
         cursor = conexion.cursor()
-        cursor.execute(f"DELETE FROM {TABLE_NAME} WHERE id = ?", (id_producto))
+        cursor.execute(f"DELETE FROM {TABLE_NAME} WHERE id = ?", (id_producto,))
         if cursor.rowcount > 0:
             conexion.commit()
             return True
@@ -105,7 +105,7 @@ def buscar_producto_id(id_producto):
     try:
         conexion = conectar_db()
         cursor = conexion.cursor()
-        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE id = ?", (id_producto))
+        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE id = ?", (id_producto,))
         producto = cursor.fetchone()
         return producto
         
@@ -121,7 +121,7 @@ def reporte_bajo_stock(limite):
     try:
         conexion = conectar_db()
         cursor = conexion.cursor()
-        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE cantidad <= ?", (limite))
+        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE cantidad <= ?", (limite,))
         productos_bajo_stock = cursor.fetchall()
         return productos_bajo_stock
         

@@ -35,6 +35,7 @@ def menu_registrar_producto():
 def menu_consultar_productos():
     imprimir_titulo("Consultar productos")
     productos = db_manager.consultar_productos()
+    mostrar_productos(productos)
 
 # Menú: Actualización de un producto por ID
 # Usa pedir_actualizacion() para evitar repetir lógica
@@ -80,7 +81,7 @@ def menu_eliminar_producto():
 def menu_buscar_producto():
     imprimir_titulo("Búsqueda de producto")
     
-    id_producto = validar_int("ID")
+    id_producto = validar_int("Ingrese el ID del producto que desea buscar")
     producto = db_manager.buscar_producto_id(id_producto)
     if(producto):
         mostrar_productos([producto])
