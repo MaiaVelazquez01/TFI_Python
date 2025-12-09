@@ -109,36 +109,6 @@ def buscar_producto_id(id_producto):
     finally:
         conexion.close()
 
-def buscar_producto_nombre(nombre_producto):
-    try:
-        conexion = conectar_db()
-        cursor = conexion.cursor()
-        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE nombre = ?", (nombre_producto))
-        producto = cursor.fetchall()
-        return producto
-        
-    except sqlite3.Error as e:
-        imprimir_error(f"Error al buscar. {e}")
-        return []
-    
-    finally:
-        conexion.close()
-        
-def buscar_producto_categoria(categoria_producto):
-    try:
-        conexion = conectar_db()
-        cursor = conexion.cursor()
-        cursor.execute(f"SELECT * FROM {TABLE_NAME} WHERE nombre = ?", (categoria_producto))
-        productos = cursor.fetchall()
-        return productos
-        
-    except sqlite3.Error as e:
-        imprimir_error(f"Error al buscar. {e}")
-        return []
-    
-    finally:
-        conexion.close()
-
 def reporte_bajo_stock(limite):
     try:
         conexion = conectar_db()
